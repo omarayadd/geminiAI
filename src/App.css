@@ -1,0 +1,108 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+a{
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.container{
+  display: flex;
+  height: 100vh;
+}
+
+.first-half-open{
+  width: 30%;
+  background-color: aquamarine;
+  position: relative;
+}
+
+.first-half-closed{
+  width: 15%;
+  position: relative;
+}
+
+.bottom-first-half{
+  position: absolute;
+  bottom: 0;
+}
+
+.second-half{
+  width: 100%;
+  background-color: yellowgreen;
+  position: relative;
+  text-align: center;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.text-box {
+  flex: 1;
+}
+
+.icon-container {
+  display: flex;
+}
+
+.icon-container a {
+  margin-left: 10px;
+  transform: translateX(-120px);
+}
+.bottom-second-half{
+  width: 100%;
+  position: absolute;
+  bottom: 30px;
+}
+
+.text-box{
+  width: 50%;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid white;
+}
+
+.upper-second-half{
+  position: relative;
+}
+
+.title{
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+.user-icon{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-image: url('./images/User-Avatar-PNG-Transparent-Image.png');
+  background-size: cover; /* Adjusts the size of the background image to cover the entire element */
+  background-position: center; 
+}
+
+.answer-box{
+  position: absolute;
+  width: 100%;
+  top: 80px;
+}
+
+.ideas{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 150px;
+}
+
+.first-idea, .second-idea, .third-idea, .fourth-idea{
+  width: 20%;
+  height: 300px;
+  background-color: blue;
+  cursor: pointer;
+}
