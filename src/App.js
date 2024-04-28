@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react'; // Import useRef hook
 import './App.css';
 import runChat from './geminiAI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,23 +7,30 @@ import { faQuestionCircle, faFileImage, faPaperPlane } from '@fortawesome/free-r
 
 
 function App() {
-  // const [value, setValue] = useState('');
   const [answer, setAnswer] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
-  const [plus, setPlus] = useState("")
+  const [plus, setPlus] = useState("");
+  const inputRef = useRef(null);
+  const [history, setHistory] = useState([]);
 
-  const Askme = async () => {
-    const inputValue = document.querySelector('input[type="text"]').value;
-    // setValue(inputValue);
-
+  const Askme = async (inputValue) => {
     try {
       const response = await runChat(inputValue);
-      // console.log(response.text)
       setAnswer(response.text());
+      setHistory([...history, inputValue])
     } catch (error) {
       console.error('Error:', error);
     }
   };
+
+  const restoreAnswer = async(inputValue) =>{
+    try {
+      const response = await runChat(inputValue);
+      setAnswer(response.text());
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
   const expand = () => {
     setIsExpanded(!isExpanded);
@@ -34,6 +41,11 @@ function App() {
       setPlus("")
     }
   };
+
+  const handleIdeaClick = (idea) => {
+    Askme(idea)
+    inputRef.current.value = idea;
+  };
  
   return (
     <div className='container'>
@@ -42,7 +54,16 @@ function App() {
         <div className={`${isExpanded ? 'plus-open' : 'plus-closed'}`}>
             <a href="#"><FontAwesomeIcon icon={faPlus} />{plus}</a>
         </div>
-        {isExpanded && <h3>Recent</h3>}
+        {isExpanded && <h3>Recent</h3>} 
+        <div>
+            {isExpanded && history.map((item, index) => (
+              <>
+                <a onClick={() => restoreAnswer(item)} key={index}>{item}</a>
+                <br></br>
+              </>
+            ))}
+        </div>
+        
         <div className='bottom-first-half'>
           <a><FontAwesomeIcon icon={faQuestionCircle} /></a> {isExpanded && <span>Help</span>}
           <br></br>
@@ -59,19 +80,19 @@ function App() {
           <div className='answer-box'>{answer}</div>
           <h2>How can I help you today?!</h2>
           {answer.length===0 && <div className='ideas'>
-            <div className='first-idea'>
+            <div className='first-idea' onClick={() => handleIdeaClick('to see the pyramids in Egypt')}>
               <h3>Plan a trip</h3>
               <p>to see the pyramids in Egypt</p>
             </div>
-            <div className='second-idea'>
+            <div className='second-idea' onClick={() => handleIdeaClick('to see the northen lights in Norway')}>
               <h3>Plan a trip</h3>
               <p>to see the northen lights in Norway</p>
             </div>
-            <div className='third-idea'>
+            <div className='third-idea' onClick={() => handleIdeaClick('to convert a date to the weekday')}>
               <h3>Write a spreadsheet formula</h3>
               <p>to convert a date to the weekday</p>
             </div>
-            <div className='fourth-idea'>
+            <div className='fourth-idea' onClick={() => handleIdeaClick('Create a tool to schedule my posts')}>
               <h3>Automate social media posts</h3>
               <p>Create a tool to schedule my posts</p>
             </div>
@@ -79,11 +100,11 @@ function App() {
         </div>
         <div className='bottom-second-half'>
           <div className="input-container">
-            <input className='text-box' type='text' placeholder='Enter Prompt Here'/>
+            <input ref={inputRef} className='text-box' type='text' placeholder='Enter Prompt Here'/> {}
             <div className="icon-container">
               <a href='#'><FontAwesomeIcon icon={faFileImage} /></a>
               <a href='#'><FontAwesomeIcon icon={faMicrophone} /></a>
-              <a onClick={Askme}><FontAwesomeIcon icon={faPaperPlane} /></a>
+              <a href="#" onClick={() => Askme(inputRef.current.value)}><FontAwesomeIcon icon={faPaperPlane} /></a> {}
             </div>
           </div>
           <p>Gemini may display inaccurate info, including about people, so double-check its responses. Your privacy and Gemini Apps</p>
