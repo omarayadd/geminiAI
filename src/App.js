@@ -25,6 +25,7 @@ function App() {
 
   const restoreAnswer = async(inputValue) =>{
     try {
+      inputRef.current.value = inputValue;
       const response = await runChat(inputValue);
       setAnswer(response.text());
     } catch (error) {
@@ -42,6 +43,11 @@ function App() {
     }
   };
 
+  const reset = () =>{
+    setAnswer("");
+    inputRef.current.value = "";
+  }
+
   const handleIdeaClick = (idea) => {
     Askme(idea)
     inputRef.current.value = idea;
@@ -52,24 +58,24 @@ function App() {
       <div className={`${isExpanded ? 'first-half-open' : 'first-half-closed'}`}>
         <a href="#" onClick={expand}><FontAwesomeIcon icon={faBars} /></a>
         <div className={`${isExpanded ? 'plus-open' : 'plus-closed'}`}>
-            <a href="#"><FontAwesomeIcon icon={faPlus} />{plus}</a>
+            <a href="#" onClick={reset}><FontAwesomeIcon icon={faPlus} />  {plus}</a>
         </div>
-        {isExpanded && <h3>Recent</h3>} 
-        <div>
+        {isExpanded && <h3 className='hh3'>Recent</h3>} 
+        <div className='items-div'>
             {isExpanded && history.map((item, index) => (
-              <>
+              <div className='ayhaga'>
                 <a onClick={() => restoreAnswer(item)} key={index}>{item}</a>
                 <br></br>
-              </>
+              </div>  
             ))}
         </div>
         
         <div className='bottom-first-half'>
-          <a><FontAwesomeIcon icon={faQuestionCircle} /></a> {isExpanded && <span>Help</span>}
+          <div><a><FontAwesomeIcon icon={faQuestionCircle} /></a> {isExpanded && <span>Help</span>}</div>
           <br></br>
-          <a><FontAwesomeIcon icon={faHistory} /></a> {isExpanded && <span>Activity</span>}
+          <div><a><FontAwesomeIcon icon={faHistory} /></a> {isExpanded && <span>Activity</span>}</div>
           <br></br>
-          <a><FontAwesomeIcon icon={faCog} /></a> {isExpanded && <span>Settings</span>}
+          <div><a><FontAwesomeIcon icon={faCog} /></a> {isExpanded && <span>Settings</span>}</div>
           <br></br>
         </div>
       </div>
