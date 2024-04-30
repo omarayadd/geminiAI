@@ -7,16 +7,19 @@ import { faQuestionCircle, faFileImage, faPaperPlane } from '@fortawesome/free-r
 
 
 function App() {
-  const [answer, setAnswer] = useState('');
+  // const [answer, setAnswer] = useState('');
+  const [pargraph, setParagraph] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [plus, setPlus] = useState("");
   const inputRef = useRef(null);
   const [history, setHistory] = useState([]);
+  const [empty, setEmpty] = useState(true);
 
   const Askme = async (inputValue) => {
     try {
       const response = await runChat(inputValue);
-      setAnswer(response.text());
+      const paragraphs = response.text().split("**");
+      setParagraph(paragraphs)
       setHistory([...history, inputValue])
     } catch (error) {
       console.error('Error:', error);
@@ -27,7 +30,8 @@ function App() {
     try {
       inputRef.current.value = inputValue;
       const response = await runChat(inputValue);
-      setAnswer(response.text());
+      const paragraphs = response.text().split("**"); // Split response text into paragraphs
+      setParagraph(paragraphs);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -44,7 +48,7 @@ function App() {
   };
 
   const reset = () =>{
-    setAnswer("");
+    setParagraph([]);
     inputRef.current.value = "";
   }
 
@@ -52,6 +56,19 @@ function App() {
     Askme(idea)
     inputRef.current.value = idea;
   };
+
+  const isEmpty = () =>{
+    console.log(inputRef.current.value)
+    if(inputRef.current.value!==""){
+      setEmpty(false)
+      
+    }
+    else
+      setEmpty(true)
+  }
+
+  
+  
  
   return (
     <div className='container'>
@@ -83,34 +100,43 @@ function App() {
         <div className='upper-second-half'>
           <h2 className='title'>Gemini</h2>
           <div className='user-icon'></div>
-          <div className='answer-box'>{answer}</div>
-          <h2>How can I help you today?!</h2>
-          {answer.length===0 && <div className='ideas'>
-            <div className='first-idea' onClick={() => handleIdeaClick('to see the pyramids in Egypt')}>
-              <h3>Plan a trip</h3>
-              <p>to see the pyramids in Egypt</p>
+          {pargraph.length > 0 ? (
+            <div className='answer-box'>
+              {pargraph.map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
             </div>
-            <div className='second-idea' onClick={() => handleIdeaClick('to see the northen lights in Norway')}>
-              <h3>Plan a trip</h3>
-              <p>to see the northen lights in Norway</p>
+          ) : (
+            <div className='tagroba'><h2 className='main-title'>How can I help you today?!</h2></div>
+          )}
+          {pargraph.length === 0 && (
+            <div className='ideas'>
+              <div className='first-idea' onClick={() => handleIdeaClick('to see the pyramids in Egypt')}>
+                <h3>Plan a trip</h3>
+                <p>to see the pyramids in Egypt</p>
+              </div>
+              <div className='second-idea' onClick={() => handleIdeaClick('to see the northern lights in Norway')}>
+                <h3>Plan a trip</h3>
+                <p>to see the northern lights in Norway</p>
+              </div>
+              <div className='third-idea' onClick={() => handleIdeaClick('to convert a date to the weekday')}>
+                <h3>Write a spreadsheet formula</h3>
+                <p>to convert a date to the weekday</p>
+              </div>
+              <div className='fourth-idea' onClick={() => handleIdeaClick('Create a tool to schedule my posts')}>
+                <h3>Automate social media posts</h3>
+                <p>Create a tool to schedule my posts</p>
+              </div>
             </div>
-            <div className='third-idea' onClick={() => handleIdeaClick('to convert a date to the weekday')}>
-              <h3>Write a spreadsheet formula</h3>
-              <p>to convert a date to the weekday</p>
-            </div>
-            <div className='fourth-idea' onClick={() => handleIdeaClick('Create a tool to schedule my posts')}>
-              <h3>Automate social media posts</h3>
-              <p>Create a tool to schedule my posts</p>
-            </div>
-          </div>}
+          )}
         </div>
         <div className='bottom-second-half'>
           <div className="input-container">
-            <input ref={inputRef} className='text-box' type='text' placeholder='Enter Prompt Here'/> {}
+          <textarea  className='text-box' rows="5" cols="50" ref={inputRef} onChange={isEmpty} placeholder='Enter Prompt Here'></textarea>
             <div className="icon-container">
               <a href='#'><FontAwesomeIcon icon={faFileImage} /></a>
               <a href='#'><FontAwesomeIcon icon={faMicrophone} /></a>
-              <a href="#" onClick={() => Askme(inputRef.current.value)}><FontAwesomeIcon icon={faPaperPlane} /></a> {}
+              {!empty && <a href="#" onClick={() => Askme(inputRef.current.value)}><FontAwesomeIcon icon={faPaperPlane} /></a> }
             </div>
           </div>
           <p>Gemini may display inaccurate info, including about people, so double-check its responses. Your privacy and Gemini Apps</p>
