@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/geminiAI/static/css/main.ce2368e7.css",
-    "main.js": "/geminiAI/static/js/main.f86e105c.js",
+    "main.css": "/geminiAI/static/css/main.222d928e.css",
+    "main.js": "/geminiAI/static/js/main.a78599a6.js",
     "static/js/453.f16dcb2a.chunk.js": "/geminiAI/static/js/453.f16dcb2a.chunk.js",
     "static/media/User-Avatar-PNG-Transparent-Image.png": "/geminiAI/static/media/User-Avatar-PNG-Transparent-Image.3dafadc3e05abaa789c3.png",
     "index.html": "/geminiAI/index.html",
-    "main.ce2368e7.css.map": "/geminiAI/static/css/main.ce2368e7.css.map",
-    "main.f86e105c.js.map": "/geminiAI/static/js/main.f86e105c.js.map",
+    "main.222d928e.css.map": "/geminiAI/static/css/main.222d928e.css.map",
+    "main.a78599a6.js.map": "/geminiAI/static/js/main.a78599a6.js.map",
     "453.f16dcb2a.chunk.js.map": "/geminiAI/static/js/453.f16dcb2a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ce2368e7.css",
-    "static/js/main.f86e105c.js"
+    "static/css/main.222d928e.css",
+    "static/js/main.a78599a6.js"
   ]
 }
