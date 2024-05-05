@@ -561,12 +561,13 @@ a:active{
   }
 
   .tagroba h2{
-    font-size: 45px;
+    font-size: 25px;
   }
   .ideas {
     flex-wrap: wrap; 
     justify-content: space-around;
     margin-top: 20px; 
+
   }
   .answer-box{
   max-height: calc(100vh - 245px); 
@@ -574,6 +575,7 @@ a:active{
 
   .first-idea, .second-idea, .third-idea, .fourth-idea {
     width: 45%; 
+    /* height: 200px; */
   }
   #load {
     width: 80%; 
